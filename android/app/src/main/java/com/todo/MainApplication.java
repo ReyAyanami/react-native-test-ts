@@ -13,6 +13,8 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
+    private static String entryPoint = "artifacts/index.android";
+
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
         @Override
         public boolean getUseDeveloperSupport() {
@@ -25,6 +27,11 @@ public class MainApplication extends Application implements ReactApplication {
                     new MainReactPackage()
             );
         }
+
+        @Override
+        protected String getJSMainModuleName() {
+            return entryPoint;
+        }
     };
 
     @Override
@@ -32,9 +39,8 @@ public class MainApplication extends Application implements ReactApplication {
         return mReactNativeHost;
     }
 
-    @Override
     protected String getJSMainModuleName() {
-        return "artifacts/index.android";
+        return entryPoint;
     }
 
     @Override
