@@ -7,6 +7,7 @@
 import React, {Component} from 'react'
 import {
   AppRegistry,
+  Button,
   StyleSheet,
   Text,
   View
@@ -18,6 +19,10 @@ interface State {
 }
 
 export default class Todo extends Component<Props, State> {
+  private learnMore() {
+    console.log(this)
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -31,6 +36,12 @@ export default class Todo extends Component<Props, State> {
           Double tap R on your keyboard to reload,{'\n'}
           Shake or press menu button for dev menu
         </Text>
+        <Button
+          onPress={this.learnMore}
+          title="Learn More"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />
       </View>
     )
   }
