@@ -12,15 +12,47 @@ import {
   Text,
   View
 } from 'react-native'
+import DatePicker from './components/date-picker.android'
+import DogService from './services/dog'
+import DogModel from './models/dog'
 
-interface Props {
-}
-interface State {
+class DogComponent extends Component<{ dog: any }, {}> {
+  render() {
+    return (
+      <View>
+        <Text>{this.props.dog.name}</Text>
+      </View>
+    )
+  }
 }
 
-export default class Todo extends Component<Props, State> {
-  private learnMore() {
-    console.log(this)
+export default class Todo extends Component<{}, { dogs: DogModel[], counter: number }> {
+
+  constructor(props) {
+    super(props)
+
+    const result = DogService.getAll()
+
+    this.state = {
+      dogs: result.map(it => it),
+      counter: 0
+    }
+
+    result.addListener(() => this.refresh(result))
+  }
+
+  private refresh(result) {
+    this.setState(prevState => ({
+      ...prevState,
+      dogs: result.map(it => it)
+    }))
+  }
+
+  private blah() {
+    this.setState(prevState => ({
+      ...prevState,
+      counter: prevState.counter + 1
+    }))
   }
 
   render() {
@@ -30,18 +62,25 @@ export default class Todo extends Component<Props, State> {
           Welcome to React Native!
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.android.js
+          Simple Counter: {this.state.counter}
         </Text>
+        <Text style={styles.instructions}>
+          Count of Dogs in Realm: {this.state.dogs.length}
+        </Text>
+
+        {this.state.dogs.map(it => <DogComponent dog={it}/>)}
+
         <Text style={styles.instructions}>
           Double tap R on your keyboard to reload,{'\n'}
           Shake or press menu button for dev menu
         </Text>
         <Button
-          onPress={this.learnMore}
-          title="Learn More"
+          onPress={() => this.blah()}
+          title="blah"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
         />
+        <DatePicker/>
       </View>
     )
   }
