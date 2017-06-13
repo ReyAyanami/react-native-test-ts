@@ -10,10 +10,7 @@ class DefaultRepository {
       REALM_LIST.set(realmName, new Realm({
         path: realmName,
         schema: registry,
-        schemaVersion: 3,
-        migration: (ignore, newRealm) => {
-          newRealm.deleteAll()
-        }
+        schemaVersion: 3
       }))
     }
 

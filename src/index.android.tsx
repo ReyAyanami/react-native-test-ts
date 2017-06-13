@@ -15,6 +15,7 @@ import {
 import DatePicker from './components/date-picker.android'
 import DogService from './services/dog'
 import DogModel from './models/dog'
+import {Collection} from 'realm'
 
 class DogComponent extends Component<{ dog: any }, {}> {
   render() {
@@ -26,25 +27,22 @@ class DogComponent extends Component<{ dog: any }, {}> {
   }
 }
 
-export default class Todo extends Component<{}, { dogs: DogModel[], counter: number }> {
+export default class Todo extends Component<{}, { dogs: Collection<DogModel>, counter: number }> {
 
   constructor(props) {
     super(props)
 
-    const result = DogService.getAll()
-
     this.state = {
-      dogs: result.map(it => it),
+      dogs: DogService.getAll(),
       counter: 0
     }
 
-    result.addListener(() => this.refresh(result))
+    this.state.dogs.addListener(() => this.refresh())
   }
 
-  private refresh(result) {
+  private refresh() {
     this.setState(prevState => ({
-      ...prevState,
-      dogs: result.map(it => it)
+      ...prevState
     }))
   }
 
