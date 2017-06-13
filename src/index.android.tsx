@@ -27,23 +27,26 @@ class DogComponent extends Component<{ dog: any }, {}> {
   }
 }
 
-export default class Todo extends Component<{}, { dogs: Collection<DogModel>, counter: number }> {
+export default class Todo extends Component<{}, { dogs: Collection<DogModel>, counter: number, uniq: number }> {
 
   constructor(props) {
     super(props)
 
     this.state = {
       dogs: DogService.getAll(),
-      counter: 0
+      counter: 0,
+      uniq: 0
     }
 
     this.state.dogs.addListener(() => this.refresh())
   }
 
   private refresh() {
+    // Dogs length was not changed, but it had to
+    console.log("dogs: " + DogService.getAll().length);
     this.setState(prevState => ({
-      ...prevState
-    }))
+      ...prevState, uniq: prevState.uniq + 1
+    })) 
   }
 
   private blah() {
