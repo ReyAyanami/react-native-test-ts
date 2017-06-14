@@ -16,6 +16,7 @@ import DatePicker from './components/date-picker.android'
 import DogService from './services/dog'
 import DogModel from './models/dog'
 import {Collection} from 'realm'
+import DefaultRepository from './repository/default'
 
 class DogComponent extends Component<{ dog: any }, {}> {
   render() {
@@ -38,7 +39,8 @@ export default class Todo extends Component<{}, { dogs: Collection<DogModel>, co
       uniq: 0
     }
 
-    this.state.dogs.addListener(() => this.refresh())
+    DefaultRepository.get()
+                     .addListener('change', () => this.refresh())
   }
 
   private refresh() {
