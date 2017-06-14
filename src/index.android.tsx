@@ -28,15 +28,14 @@ class DogComponent extends Component<{ dog: any }, {}> {
   }
 }
 
-export default class Todo extends Component<{}, { dogs: Collection<DogModel>, counter: number, uniq: number }> {
+export default class Todo extends Component<{}, { dogs: Collection<DogModel>, counter: number }> {
 
   constructor(props) {
     super(props)
 
     this.state = {
       dogs: DogService.getAll(),
-      counter: 0,
-      uniq: 0
+      counter: 0
     }
 
     DefaultRepository.get()
@@ -44,10 +43,8 @@ export default class Todo extends Component<{}, { dogs: Collection<DogModel>, co
   }
 
   private refresh() {
-    // Dogs length was not changed, but it had to
-    console.log("dogs: " + DogService.getAll().length);
     this.setState(prevState => ({
-      ...prevState, uniq: prevState.uniq + 1
+      ...prevState
     })) 
   }
 
