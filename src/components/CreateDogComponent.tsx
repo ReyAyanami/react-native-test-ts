@@ -7,12 +7,16 @@ import {
 } from 'react-native'
 
 export default class CreateDogComponent extends Component<{}, {}> {
+    static navigationOptions = {
+        title: 'Create a dog!'
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <Text>Create dog</Text>
             </View>
-        );
+        )
     }
 }
 
@@ -21,9 +25,8 @@ const styles: any = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5FCFF'
   }
 })
 
 AppRegistry.registerComponent('CreateDogComponent', () => CreateDogComponent)
-

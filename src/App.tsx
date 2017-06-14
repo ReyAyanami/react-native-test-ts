@@ -12,11 +12,15 @@ import {
   Text,
   View
 } from 'react-native'
-import DatePicker from './date-picker.android'
-import DogService from '../services/dog'
-import DogModel from '../models/dog'
+import { StackNavigator } from 'react-navigation'
+
+import DatePicker from './components/date-picker.android'
+import DogService from './services/dog'
+import DogModel from './models/dog'
 import {Collection} from 'realm'
-import DefaultRepository from '../repository/default'
+import DefaultRepository from './repository/default'
+
+import CreateDogComponent from './components/CreateDogComponent'
 
 class DogComponent extends Component<{ dog: any }, {}> {
   render() {
@@ -28,7 +32,10 @@ class DogComponent extends Component<{ dog: any }, {}> {
   }
 }
 
-export default class Todo extends Component<{}, { dogs: Collection<DogModel>, counter: number }> {
+class Todo extends Component<{navigation: any}, { dogs: Collection<DogModel>, counter: number }> {
+  static navigationOptions = {
+    title: 'Start screen'
+  }
 
   constructor(props) {
     super(props)
@@ -42,20 +49,9 @@ export default class Todo extends Component<{}, { dogs: Collection<DogModel>, co
                      .addListener('change', () => this.refresh())
   }
 
-  private refresh() {
-    this.setState(prevState => ({
-      ...prevState
-    })) 
-  }
-
-  private blah() {
-    this.setState(prevState => ({
-      ...prevState,
-      counter: prevState.counter + 1
-    }))
-  }
-
   render() {
+    const { navigate } = this.props.navigation
+
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
@@ -75,15 +71,29 @@ export default class Todo extends Component<{}, { dogs: Collection<DogModel>, co
           Shake or press menu button for dev menu
         </Text>
         <Button
-          onPress={() => this.blah()}
-          title="blah"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
+          onPress={() => navigate('AddDog')}
+          title='blah'
+          color='#841584'
+          accessibilityLabel='Learn more about this purple button'
         />
         <DatePicker/>
       </View>
     )
   }
+
+  private refresh() {
+    this.setState(prevState => ({
+      ...prevState
+    }))
+  }
+/*
+  private blah() {
+    this.setState(prevState => ({
+      ...prevState,
+      counter: prevState.counter + 1
+    }))
+  }
+*/
 }
 
 const styles: any = StyleSheet.create({
@@ -91,18 +101,23 @@ const styles: any = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5FCFF'
   },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10,
+    margin: 10
   },
   instructions: {
     textAlign: 'center',
     color: '#333333',
-    marginBottom: 5,
-  },
+    marginBottom: 5
+  }
 })
 
-AppRegistry.registerComponent('Todo', () => Todo)
+const meetingApp = StackNavigator({
+  Home: { screen: Todo },
+  AddDog: { screen: CreateDogComponent }
+})
+
+AppRegistry.registerComponent('Todo', () => meetingApp)
