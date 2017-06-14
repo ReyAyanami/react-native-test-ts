@@ -50,8 +50,6 @@ class Todo extends Component<{navigation: any}, { dogs: Collection<DogModel>, co
   }
 
   render() {
-    const { navigate } = this.props.navigation
-
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
@@ -70,13 +68,15 @@ class Todo extends Component<{navigation: any}, { dogs: Collection<DogModel>, co
           Double tap R on your keyboard to reload,{'\n'}
           Shake or press menu button for dev menu
         </Text>
-        <Button
-          onPress={() => navigate('AddDog')}
-          title='blah'
-          color='#841584'
-          accessibilityLabel='Learn more about this purple button'
-        />
-        <DatePicker/>
+        <View style={{marginTop: 10}}>
+          <Button
+            onPress={() => this.blah()}
+            title='blah'
+            color='#841584'
+            accessibilityLabel='Learn more about this purple button'
+          />
+        </View>
+        <DatePicker navigation={this.props.navigation}/>
       </View>
     )
   }
@@ -86,14 +86,13 @@ class Todo extends Component<{navigation: any}, { dogs: Collection<DogModel>, co
       ...prevState
     }))
   }
-/*
+
   private blah() {
     this.setState(prevState => ({
       ...prevState,
       counter: prevState.counter + 1
     }))
   }
-*/
 }
 
 const styles: any = StyleSheet.create({
@@ -112,6 +111,9 @@ const styles: any = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5
+  },
+  button: {
+    marginTop: 10
   }
 })
 

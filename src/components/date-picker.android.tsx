@@ -5,34 +5,35 @@ import {
 } from 'react-native'
 import DogService from '../services/dog'
 
-export default class DatePicker extends Component<{}, {}> {
+export default class DatePicker extends Component<{navigation: any}, {}> {
+  render() {
+    return (
+      <View style={{marginTop: 10}}>
+        <Button
+          onPress={() => this.startCreateDog()}
+          title='create new dog'
+          color='#841584'
+          accessibilityLabel='Learn more about this purple button'
+        />
+
+        <View style={{marginTop: 30}}>
+          <Button
+            onPress={() => this.deleteAllDogs()}
+            title='delete all dog'
+            color='#841584'
+            accessibilityLabel='Learn more about this purple button'
+          />
+        </View>
+      </View>
+    )
+  }
+
   private deleteAllDogs() {
     DogService.deleteAll()
   }
 
-  private createDog() {
-    DogService.create({
-      name: 'some',
-      key: new Date().toDateString()
-    })
+  private startCreateDog() {
+    this.props.navigation.navigate('AddDog')
   }
 
-  render() {
-    return (
-      <View>
-        <Button
-          onPress={() => this.createDog()}
-          title="create new dog"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-        <Button
-          onPress={() => this.deleteAllDogs()}
-          title="delete all dog"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-      </View>
-    )
-  }
 }
